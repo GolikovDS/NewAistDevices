@@ -1,12 +1,9 @@
-package sample.controllers.devices;
+package sample.controllers;
 
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import sample.Main;
-
-import java.io.IOException;
+import sample.controllers.devices.Devices;
 
 public abstract class Device {
     private Devices name;
@@ -54,16 +51,16 @@ public abstract class Device {
         this.tab = tab;
     }
 
-   public Tab getTab() {
-        Tab tab = null;
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(Main.patern);
-        try {
-            anchorPane = fxmlLoader.load();
-            tab = new Tab("УПТ №" + number, anchorPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tab;
-    }
+   public abstract Tab getTab();
+  //{
+//        Tab tab = null;
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        fxmlLoader.setLocation(Main.patern);
+//        try {
+//            anchorPane = fxmlLoader.load();
+//            tab = new Tab("УПТ №" + number, anchorPane);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
 }

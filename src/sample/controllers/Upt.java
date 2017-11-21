@@ -1,21 +1,23 @@
-package sample.controllers.devices;
+package sample.controllers;
 
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
+import sample.SerialPort.SerialPortUpt;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class Upt extends Device implements Initializable, Observer {
-
+public class Upt implements Initializable, Observer, EventHandler<WindowEvent> {
     public CheckBox error_power;
     public CheckBox error_akb;
     public CheckBox upt_is_blocked;
@@ -24,34 +26,33 @@ public class Upt extends Device implements Initializable, Observer {
     public CheckBox upt_fire2;
     public CheckBox error;
     public CheckBox avt_off;
-    public ChoiceBox P1;
-    public ChoiceBox sh2;
-    public ChoiceBox sh1;
-    public ChoiceBox sh3;
-    public ChoiceBox vu;
-    public ChoiceBox sdu;
-    public ChoiceBox kva;
-    public ChoiceBox gu;
-    public ChoiceBox gn;
-    public ChoiceBox ao;
-    public ChoiceBox ob1;
-    public ChoiceBox ykd;
-    public ChoiceBox kdp;
+    public ChoiceBox<String> P1;
+    public ChoiceBox<String> sh2;
+    public ChoiceBox<String> sh1;
+    public ChoiceBox<String> sh3;
+    public ChoiceBox<String> vu;
+    public ChoiceBox<String> sdu;
+    public ChoiceBox<String> kva;
+    public ChoiceBox<String> gu;
+    public ChoiceBox<String> gn;
+    public ChoiceBox<String> ao;
+    public ChoiceBox<String> ob1;
+    public ChoiceBox<String> ykd;
+    public ChoiceBox<String> kdp;
     public TextField сondown;
     public TextField u_power;
     public TextField u_power_akb;
+    private byte number;
+    private byte[] state;
 
-    public TabPane tansPanelUpt;
-
-    public Upt(Devices name, byte number, TabPane tabPane) {
-        super(name, number);
-        tansPanelUpt = tabPane;
+    public Upt() {
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String[] s = {"Норма","Пуск", "КЗ", "Обрыв"};
-        String[] sSh = {"Норма","Норма", "КЗ", "Обрыв", "Пожар1", "Пожар2"};
+        String[] s = {"Норма", "Пуск", "КЗ", "Обрыв"};
+        String[] sSh = {"Норма", "Норма", "КЗ", "Обрыв", "Пожар1", "Пожар2"};
         P1.setItems(FXCollections.observableArrayList(Arrays.asList(s)));
         sh1.setItems(FXCollections.observableArrayList(Arrays.asList(sSh)));
         sh2.setItems(FXCollections.observableArrayList(Arrays.asList(sSh)));
@@ -79,16 +80,32 @@ public class Upt extends Device implements Initializable, Observer {
         ykd.getSelectionModel().select(0);
         kdp.getSelectionModel().select(0);
         kva.getSelectionModel().select(0);
+        System.out.println("УПТ №" + number + " init");
+        Controller.uptList.add(this);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+
+            if (getSelectedIndex(P1) > 1 || getSelectedIndex(P1) > 1 || (getSelectedIndex(sh1) > 1 && getSelectedIndex(sh1) < 3) ||
+                    (getSelectedIndex(sh2) > 1 && getSelectedIndex(sh2) < 3) || (getSelectedIndex(sh3) > 1 && getSelectedIndex(sh3) < 3) ||
+                    getSelectedIndex(sdu) > 1 || getSelectedIndex(vu) > 1 || getSelectedIndex(kva) > 1 || getSelectedIndex(ykd) > 1
+                    || getSelectedIndex(kdp) > 1 || getSelectedIndex(ob1) > 1 || getSelectedIndex(ao) > 1 || getSelectedIndex(gn) > 1 || getSelectedIndex(gu) > 1) {
+                error.setSelected(true);
+                if (!avt_off.isSelected())
+                    avt_off.setSelected(true);
+            } else {
+                error.setSelected(false);
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
+    private int getSelectedIndex(ChoiceBox choiceBox) {
+        return choiceBox.getSelectionModel().getSelectedIndex();
     }
 
-    @Override
     public byte[] getState() {
-        return new byte[]{1, 3, 10,
+        state = new byte[]{1, 4, 10,
                 0x01,
                 getByteState_upt(),
                 getState_sh1_sh2(),
@@ -99,12 +116,8 @@ public class Upt extends Device implements Initializable, Observer {
                 (byte) (Double.parseDouble(u_power.getText()) * 10 - 100),
                 (byte) (Double.parseDouble(u_power_akb.getText()) * 10 - 100),
                 0x00};
+        return state;
     }
-
-    public void onClickAddUpt() {
-        tansPanelUpt.getTabs().add(getTab());
-    }
-
 
     private byte getByteState_upt() {
         byte b = 0x00;
@@ -145,5 +158,60 @@ public class Upt extends Device implements Initializable, Observer {
     private byte getUKD() {
         return (byte) (kdp.getSelectionModel().getSelectedIndex() | ykd.getSelectionModel().getSelectedIndex() << 2 |
                 ob1.getSelectionModel().getSelectedIndex() << 4);
+    }
+
+    public byte getNumber() {
+        return number;
+    }
+
+    public void setNumber(byte number) {
+        this.number = number;
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg != null) {
+            List<Byte> input = (List<Byte>) arg;
+            System.out.println(input.toString());
+            if (number == input.get(0)) {
+                System.out.println("is correct");
+                if (input.get(1) == 0x06) {
+                    switch (input.get(2)) {
+                        case 0x01:
+                            System.out.println("RESET");
+                            ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x01});
+                            break;
+                        case 0x02:
+                            System.out.println("AUTO IS ON");
+                            ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x02});
+                            avt_off.setSelected(false);
+                            break;
+                        case 0x03:
+                            System.out.println("STARTUP");
+                            ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x03});
+                            break;
+                        case 0x04:
+                            break;
+
+                    }
+                } else if (input.get(1) == 0x04) {
+                    ((SerialPortUpt) o).response(getState());
+                }
+                if (input.get(1) == 0x11) {
+                    System.out.println("SEARCH" + number);
+                    ((SerialPortUpt) o).response(new byte[]{number, 0x11, 0x01, 0x01});
+                } else {
+                    System.out.println("Something als");
+                }
+            }
+        }
+    }
+
+
+    //stop timer/
+    @Override
+    public void handle(WindowEvent event) {
+
     }
 }

@@ -5,12 +5,10 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import sample.Main;
 import sample.controllers.Controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -20,15 +18,27 @@ public class SerialPortUpt extends Observable {
     private byte myAddress;
     private byte[] outData;
     Controller controller;
+    private static List<Observer> observers = new ArrayList<>();
+
+
+    public void register(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void request(List<Byte> bytes) {
+        for (Observer observer : observers) {
+            observer.update(this, bytes);
+        }
+    }
+
 
     public SerialPortUpt() {
     }
 
-    public SerialPortUpt getPort(String port, int speed, int bitData, String party, String stopBit, Observer observer, byte myAddress, Controller controller) throws SerialPortException {
+    public SerialPortUpt getPort(String port, int speed, int bitData, String party, String stopBit, Observer observer, Controller controller) throws SerialPortException {
         this.controller = controller;
         if (portMigu == null) {
             synchronized (SerialPortUpt.class) {
-                this.myAddress = myAddress;
                 serialPort = new SerialPort(port);
                 addObserver(observer);
                 serialPort.openPort();
@@ -47,7 +57,21 @@ public class SerialPortUpt extends Observable {
 //        response.set(0, myAddress);
         CRC16 crc16 = new CRC16(response);
         outData = crc16.getDataAndCrc();
-        System.out.println(Arrays.toString(outData));
+//        System.out.println(Arrays.toString(outData));
+    }
+
+    public void response(byte[] out) {
+        try {
+            serialPort.writeBytes(new CRC16(out).getDataAndCrc());
+            System.out.println("state" + Arrays.toString(out));
+
+            TimeUnit.MILLISECONDS.sleep(12);
+
+            setChanged();
+            notifyObservers(out);
+        } catch (SerialPortException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeConnection() throws SerialPortException {
@@ -60,40 +84,46 @@ public class SerialPortUpt extends Observable {
 
     class SerialPortReader implements SerialPortEventListener {
         public void serialEvent(SerialPortEvent event) {
-            if (event.getEventValue() > 3) {//Check bytes count in the input buffer
-                try {
-                    byte buff = serialPort.readBytes(1)[0];
-                    String log = String.format("%d - address", buff);
-                    System.out.println(log);
-                    if (buff == myAddress) {
-                        buff = serialPort.readBytes(1)[0];
-                        log = String.format("%d - fun", buff);
-                        System.out.println(log);
-                        switch (buff) {
-                            ////чтение имяни прибора УПТ - 0x01////
-                            case 0x11:
-                                returnName();
+            if(Main.isAlive) {
+                if (event.getEventValue() > 3) {//Check bytes count in the input buffer
+                    try {
+                        ArrayList<Byte> bytes = new ArrayList<>();
+                        bytes.addAll(arrayToList(serialPort.readBytes(2)));
+
+                        switch (bytes.get(1)) {
+                            case 4:
+                                bytes.addAll(arrayToList(serialPort.readBytes(6)));
+                                System.out.println(bytes.toString());
                                 break;
-                            case 0x07:
+                            case 6:
+                                bytes.addAll(arrayToList(serialPort.readBytes(3)));
+                                System.err.println(bytes.toString());
                                 break;
-                            case 0x03:
-                                returnState();
-                                break;
-                            default:
-                                returnName();
+                            case 17:
+                                System.err.println("NAME Device");
+                                byte buffer[] = serialPort.readBytes(2);
                                 break;
                         }
+
+                        request(bytes);
+
+                    } catch (SerialPortException ex) {
+                        System.out.println(ex);
                     }
-                } catch (SerialPortException ex) {
-                    System.out.println(ex);
+                }
+            }else {
+                try {
+                    serialPort.closePort();
+                } catch (SerialPortException e) {
+                    e.printStackTrace();
                 }
             }
         }
 
-        private void returnName() {
+        private void returnName(byte address) {
             try {
                 byte buffer[] = serialPort.readBytes(2);
-                serialPort.writeBytes(new CRC16(new byte[]{myAddress, 0x11, 0x01, 0x01}).getDataAndCrc());
+                serialPort.writeBytes(new CRC16(new byte[]{address, 0x11, 0x01, 0x01}).getDataAndCrc());
                 setChanged();
                 notifyObservers(buffer);
             } catch (SerialPortException e) {
@@ -101,19 +131,12 @@ public class SerialPortUpt extends Observable {
             }
         }
 
-        private void returnState() {
-            System.out.println("state" + Arrays.toString(outData));
-            try {
-                byte buffer[] = serialPort.readBytes(6);
-                TimeUnit.MILLISECONDS.sleep(12);
-//                serialPort.writeBytes(new byte[]{myAddress, 0x03, 0x08, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x02, 0x03});
+    }
 
-//                serialPort.writeBytes(new CRC16(controller.getState()).getDataAndCrc());todo write hire
-                setChanged();
-                notifyObservers(buffer);
-            } catch (SerialPortException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    private List<Byte> arrayToList(byte[] bytes) {
+        List<Byte> byteList = new ArrayList<>();
+        for (byte aByte : bytes) byteList.add(aByte);
+
+        return byteList;
     }
 }

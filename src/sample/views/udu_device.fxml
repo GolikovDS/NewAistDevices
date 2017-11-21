@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<AnchorPane id="AnchorPane" layoutX="0.0" layoutY="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.controllers.Udu">
+  <children>
+    <Label layoutX="14.0" layoutY="34.0" text="state_upt" />
+    <CheckBox fx:id="error_power" layoutX="647.0" layoutY="34.0" mnemonicParsing="false" text="error_power" />
+    <CheckBox id="upt_is_blocked" fx:id="udu_is_blocked" layoutX="526.0" layoutY="34.0" mnemonicParsing="false" text="udu_is_blocked" />
+    <CheckBox fx:id="error" layoutX="743.0" layoutY="34.0" mnemonicParsing="false" text="error" />
+    <Label layoutX="15.0" layoutY="79.0" text="state_sh1_sh2" />
+    <ChoiceBox id="P1" fx:id="ru_open" layoutX="291.0" layoutY="77.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label layoutX="228.0" layoutY="79.0" text="Ру открыть" />
+    <Label layoutX="426.0" layoutY="122.0" text="ВУ" />
+    <ChoiceBox id="P1" fx:id="ru_is_close" layoutX="457.0" layoutY="119.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label layoutX="66.0" layoutY="122.0" text="СДУ" />
+    <ChoiceBox id="P1" fx:id="sdu_udu" layoutX="96.0" layoutY="118.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label layoutX="208.0" layoutY="119.0" text="Концю ру откр" />
+    <ChoiceBox id="P1" fx:id="ru_is_open" layoutX="291.0" layoutY="117.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label layoutX="158.0" layoutY="289.0" text="Напряжение питания" />
+    <TextField fx:id="u_power" layoutX="284.0" layoutY="286.0" prefWidth="200.0" text="24.4" />
+    <ChoiceBox id="P1" fx:id="ru_close" layoutX="457.0" layoutY="79.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label layoutX="379.0" layoutY="82.0" text="Ру закрыть" />
+  </children>
+</AnchorPane>
