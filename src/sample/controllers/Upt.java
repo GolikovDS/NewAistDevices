@@ -95,6 +95,22 @@ public class Upt implements Initializable, Observer, EventHandler<WindowEvent> {
             } else {
                 error.setSelected(false);
             }
+
+            if ((getSelectedIndex(sh1) == 4 && getSelectedIndex(sh2) != 4 && getSelectedIndex(sh3) != 4) ||
+                    (getSelectedIndex(sh1) != 4 && getSelectedIndex(sh2) == 4 && getSelectedIndex(sh3) != 4) ||
+                    (getSelectedIndex(sh1) != 4 && getSelectedIndex(sh2) != 4 && getSelectedIndex(sh3) == 4)) {
+                upt_fire1.setSelected(true);
+            } else {
+                upt_fire1.setSelected(false);
+            }
+
+            if ((getSelectedIndex(sh1) == 4 && getSelectedIndex(sh2) == 4) || (getSelectedIndex(sh1) == 4 && getSelectedIndex(sh3) == 4) ||
+                    (getSelectedIndex(sh2) == 4 && getSelectedIndex(sh3) == 4) || getSelectedIndex(sh1) == 5 || getSelectedIndex(sh2) == 5 ||
+                    getSelectedIndex(sh3) == 5) {
+                upt_fire2.setSelected(true);
+            } else {
+                upt_fire2.setSelected(false);
+            }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -192,6 +208,16 @@ public class Upt implements Initializable, Observer, EventHandler<WindowEvent> {
                             ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x03});
                             break;
                         case 0x04:
+                            System.out.println("Look");
+                            ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x04});
+                            if (upt_is_blocked.isSelected())
+                                upt_is_blocked.setSelected(false);
+                            else
+                                upt_is_blocked.setSelected(true);
+                            break;
+                        case 0x05:
+                            System.out.println("test display");
+                            ((SerialPortUpt) o).response(new byte[]{number, 0x06, 0x05});
                             break;
 
                     }

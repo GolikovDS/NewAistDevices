@@ -63,7 +63,7 @@ public class SerialPortUpt extends Observable {
     public void response(byte[] out) {
         try {
             serialPort.writeBytes(new CRC16(out).getDataAndCrc());
-            System.out.println("state" + Arrays.toString(out));
+//            System.out.println("state" + Arrays.toString(out));
 
             TimeUnit.MILLISECONDS.sleep(12);
 
@@ -93,11 +93,11 @@ public class SerialPortUpt extends Observable {
                         switch (bytes.get(1)) {
                             case 4:
                                 bytes.addAll(arrayToList(serialPort.readBytes(6)));
-                                System.out.println(bytes.toString());
+//                                System.out.println(bytes.toString());
                                 break;
                             case 6:
                                 bytes.addAll(arrayToList(serialPort.readBytes(3)));
-                                System.err.println(bytes.toString());
+//                                System.err.println(bytes.toString());
                                 break;
                             case 17:
                                 System.err.println("NAME Device");
