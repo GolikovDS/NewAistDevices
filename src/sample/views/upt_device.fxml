@@ -9,19 +9,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane id="AnchorPane" layoutX="0.0" layoutY="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.controllers.Upt">
+<AnchorPane id="AnchorPane" layoutX="0.0" layoutY="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.controllers.Upt">
   <children>
-    <Label layoutX="14.0" layoutY="34.0" text="state_upt" />
-    <CheckBox fx:id="error_power" layoutX="647.0" layoutY="34.0" mnemonicParsing="false" text="error_power" />
-    <CheckBox fx:id="error_akb" layoutX="566.0" layoutY="35.0" mnemonicParsing="false" text="error_akb" />
-    <CheckBox fx:id="door_open" layoutX="484.0" layoutY="34.0" mnemonicParsing="false" text="door_open" />
-    <CheckBox fx:id="upt_is_blocked" layoutX="372.0" layoutY="34.0" mnemonicParsing="false" text="upt_is_blocked" />
-    <CheckBox fx:id="upt_fire1" layoutX="292.0" layoutY="34.0" mnemonicParsing="false" text="upt_fire1" />
-    <CheckBox fx:id="upt_fire2" layoutX="211.0" layoutY="34.0" mnemonicParsing="false" text="upt_fire2" />
-    <CheckBox fx:id="error" layoutX="743.0" layoutY="34.0" mnemonicParsing="false" text="error" />
-    <CheckBox fx:id="avt_off" layoutX="144.0" layoutY="34.0" mnemonicParsing="false" text="avt_off" />
-    <Label layoutX="15.0" layoutY="79.0" text="state_sh1_sh2" />
-    <ChoiceBox fx:id="P1" layoutX="227.0" layoutY="77.0">
+    <Label layoutX="71.0" layoutY="33.0" text="state_upt" />
+    <CheckBox fx:id="error_power" layoutX="615.0" mnemonicParsing="false" text="error_power" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="error_akb" layoutX="534.0" mnemonicParsing="false" text="error_akb" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="upt_is_blocked" layoutX="430.0" mnemonicParsing="false" text="upt_is_blocked" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="upt_fire1" layoutX="352.0" mnemonicParsing="false" text="upt_fire1" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="upt_fire2" layoutX="278.0" mnemonicParsing="false" text="upt_fire2" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="error" layoutX="711.0" mnemonicParsing="false" text="error" AnchorPane.topAnchor="90.0" />
+    <CheckBox fx:id="avt_off" layoutX="208.0" mnemonicParsing="false" text="avt_off" AnchorPane.topAnchor="90.0" />
+    <Label layoutX="36.0" layoutY="167.0" text="state_sh1_sh2" />
+    <ChoiceBox fx:id="P1" layoutX="248.0" layoutY="165.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -30,10 +29,10 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="197.0" layoutY="80.0" text="Пуск" />
-    <Label layoutX="358.0" layoutY="80.0" text="ШС2" />
-    <Label layoutX="540.0" layoutY="79.0" text="ШС1" />
-    <ChoiceBox id="P1" fx:id="sh2" layoutX="389.0" layoutY="77.0">
+    <Label layoutX="218.0" layoutY="168.0" text="Пуск" />
+    <Label layoutX="379.0" layoutY="168.0" text="ШС2" />
+    <Label layoutX="561.0" layoutY="167.0" text="ШС1" />
+    <ChoiceBox id="P1" fx:id="sh2" layoutX="410.0" layoutY="165.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -42,7 +41,7 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <ChoiceBox id="P1" fx:id="sh1" layoutX="574.0" layoutY="77.0">
+    <ChoiceBox id="P1" fx:id="sh1" layoutX="595.0" layoutY="165.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -51,8 +50,8 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="540.0" layoutY="122.0" text="ШС3" />
-    <ChoiceBox id="P1" fx:id="sh3" layoutX="574.0" layoutY="122.0">
+    <Label layoutX="561.0" layoutY="210.0" text="ШС3" />
+    <ChoiceBox id="P1" fx:id="sh3" layoutX="595.0" layoutY="210.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -61,8 +60,8 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="358.0" layoutY="125.0" text="ВУ" />
-    <ChoiceBox id="P1" fx:id="vu" layoutX="389.0" layoutY="122.0">
+    <Label layoutX="379.0" layoutY="213.0" text="ВУ" />
+    <ChoiceBox id="P1" fx:id="vu" layoutX="410.0" layoutY="210.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -71,8 +70,8 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="197.0" layoutY="127.0" text="СДУ" />
-    <ChoiceBox id="P1" fx:id="sdu" layoutX="227.0" layoutY="123.0">
+    <Label layoutX="218.0" layoutY="215.0" text="СДУ" />
+    <ChoiceBox id="P1" fx:id="sdu" layoutX="248.0" layoutY="211.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -81,10 +80,10 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="431.0" layoutY="176.0" text="Газ не входи" />
-    <Label layoutX="288.0" layoutY="176.0" text="Газ Уходи" />
-    <Label layoutX="164.0" layoutY="176.0" text="КВА" />
-    <ChoiceBox id="P1" fx:id="kva" layoutX="190.0" layoutY="173.0">
+    <Label layoutX="452.0" layoutY="264.0" text="Газ не входи" />
+    <Label layoutX="309.0" layoutY="264.0" text="Газ Уходи" />
+    <Label layoutX="185.0" layoutY="264.0" text="КВА" />
+    <ChoiceBox id="P1" fx:id="kva" layoutX="211.0" layoutY="261.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -93,7 +92,7 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <ChoiceBox id="P1" fx:id="gu" layoutX="343.0" layoutY="173.0">
+    <ChoiceBox id="P1" fx:id="gu" layoutX="364.0" layoutY="261.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -102,7 +101,7 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <ChoiceBox id="P1" fx:id="gn" layoutX="508.0" layoutY="173.0">
+    <ChoiceBox id="P1" fx:id="gn" layoutX="529.0" layoutY="261.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -111,8 +110,8 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="590.0" layoutY="176.0" text="Автоматика отк" />
-    <ChoiceBox id="P1" fx:id="ao" layoutX="685.0" layoutY="174.0">
+    <Label layoutX="611.0" layoutY="264.0" text="Автоматика отк" />
+    <ChoiceBox id="P1" fx:id="ao" layoutX="706.0" layoutY="262.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -121,9 +120,9 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="478.0" layoutY="226.0" text="УКД" />
-    <Label layoutX="311.0" layoutY="226.0" text="ОБ1" />
-    <ChoiceBox id="P1" fx:id="ob1" layoutX="343.0" layoutY="221.0">
+    <Label layoutX="499.0" layoutY="314.0" text="УКД" />
+    <Label layoutX="332.0" layoutY="314.0" text="ОБ1" />
+    <ChoiceBox id="P1" fx:id="ob1" layoutX="364.0" layoutY="309.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -132,7 +131,7 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <ChoiceBox id="P1" fx:id="ykd" layoutX="508.0" layoutY="223.0">
+    <ChoiceBox id="P1" fx:id="ykd" layoutX="529.0" layoutY="311.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -141,8 +140,8 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="652.0" layoutY="226.0" text="КДП" />
-    <ChoiceBox id="P1" fx:id="kdp" layoutX="685.0" layoutY="224.0">
+    <Label layoutX="673.0" layoutY="314.0" text="КДП" />
+    <ChoiceBox id="P1" fx:id="kdp" layoutX="706.0" layoutY="312.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -151,11 +150,17 @@
         </FXCollections>
       </items>
     </ChoiceBox>
-    <Label layoutX="158.0" layoutY="260.0" text="Обратный отсчет" />
-    <Label layoutX="158.0" layoutY="289.0" text="Напряжение питания" />
-    <Label layoutX="159.0" layoutY="317.0" text="Напряжение акб" />
-    <TextField fx:id="сondown" layoutX="284.0" layoutY="260.0" prefWidth="200.0" text="0" />
-    <TextField fx:id="u_power" layoutX="284.0" layoutY="286.0" prefWidth="200.0" text="24.4" />
-    <TextField fx:id="u_power_akb" layoutX="284.0" layoutY="311.0" prefWidth="200.0" text="24.3" />
+    <Label layoutX="179.0" layoutY="348.0" text="Обратный отсчет" />
+    <Label layoutX="179.0" layoutY="377.0" text="Напряжение питания" />
+    <Label layoutX="180.0" layoutY="405.0" text="Напряжение акб" />
+    <TextField fx:id="сondown" layoutX="305.0" layoutY="348.0" prefWidth="200.0" text="0" />
+    <TextField fx:id="u_power" layoutX="305.0" layoutY="374.0" prefWidth="200.0" text="24.4" />
+    <TextField fx:id="u_power_akb" layoutX="305.0" layoutY="399.0" prefWidth="200.0" text="24.3" />
+    <CheckBox id="error_power" fx:id="stop_startup" layoutX="459.0" mnemonicParsing="false" text="stop_startup" AnchorPane.topAnchor="30.0" />
+    <Button fx:id="buttonReset" layoutX="751.0" layoutY="447.0" mnemonicParsing="false" onAction="#resetDevice" text="Reset" />
+    <CheckBox id="error_power" fx:id="otv_derived" layoutX="376.0" mnemonicParsing="false" text="otv derived" AnchorPane.topAnchor="30.0" />
+    <CheckBox id="error_power" fx:id="fire_from2" layoutX="561.0" layoutY="32.0" mnemonicParsing="false" text="fire_from2" />
+    <CheckBox id="error_power" fx:id="fire_from1" layoutX="641.0" layoutY="32.0" mnemonicParsing="false" text="fire_from1" />
+    <CheckBox id="error_power" fx:id="startup_is_goin" layoutX="275.0" layoutY="30.0" mnemonicParsing="false" text="startup_is_goin" />
   </children>
 </AnchorPane>
